@@ -2,10 +2,12 @@
 
 namespace app\models;
 
-class Blog extends \yii\db\ActiveRecord
+use yii\db\ActiveRecord;
+
+class Blogs extends ActiveRecord
 {
     public static function tableName(): string
     {
-        return 'blog';
+        return 'blogs';
     }
 }
