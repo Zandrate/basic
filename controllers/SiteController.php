@@ -2,9 +2,9 @@
 
 namespace app\controllers;
 
-use app\models\CreateForm;
 use Yii;
 use yii\db\Exception;
+use yii\db\StaleObjectException;
 use yii\web\Controller;
 use app\models\Blogs;
 
@@ -26,17 +26,13 @@ class SiteController extends Controller
         ];
     }
 
-    /**
-     * Displays homepage.
-     *
-     * @return string
-     */
-    public function actionIndex($tag=null): string
+
+    public function actionIndex($tag = null): string
     {
         $tags = Blogs::find()->select('tag')->all();
-        if ($tag){
+        if ($tag) {
             $blogs = Blogs::find()->where(['tag' => $tag])->all();
-        }else {
+        } else {
             $blogs = Blogs::find()->all();
         }
         return $this->render('index', compact('blogs', 'tags'));
@@ -45,7 +41,13 @@ class SiteController extends Controller
 
     public function actionView($id, $about, $title, $text): string
     {
-        return $this->render('view', ['id' => $id, 'about' => $about, 'title' => $title, 'text' => $text]);
+        return $this->render(
+            'view',
+                compact( 'id',
+                'about',
+                'title',
+                'text'
+        ));
     }
 
 
@@ -54,7 +56,7 @@ class SiteController extends Controller
      */
     public function actionCreate()
     {
-        $model = new CreateForm();
+        $model = new Blogs();
         $main_title = 'Создание новой статьи';
 
         if ($model->load(Yii::$app->request->post())) {
@@ -70,8 +72,8 @@ class SiteController extends Controller
 
     public function actionEdit(int $id)
     {
-        $model = CreateForm::find()
-            ->andWhere(["id"=>$id])
+        $model = Blogs::find()
+            ->andWhere(["id" => $id])
             ->one();
 
         $main_title = 'Редактирование статьи';
@@ -83,13 +85,17 @@ class SiteController extends Controller
             }
 
         }
-        return $this->render('create', compact('model','main_title'));
+        return $this->render('create', compact('model', 'main_title'));
     }
 
 
+    /**
+     * @throws \Throwable
+     * @throws StaleObjectException
+     */
     public function actionDelete(int $id)
     {
-        $model = CreateForm::find()
+        $model = Blogs::find()
             ->andWhere(["id" => $id])
             ->one();
 

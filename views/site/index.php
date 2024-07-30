@@ -3,6 +3,7 @@
 /** @var yii\web\View $this */
 
 /** @var $blogs */
+
 /** @var $tags */
 
 use yii\helpers\Url;
@@ -13,10 +14,10 @@ $this->title = Yii:: $app->name;
 
 <div class="row">
     <?php foreach ($tags as $tag): ?>
-        <a class="col-sm-1 text-primary" href="<?=Url::to([
-                "site/index",
-                'tag'=>$tag->tag,
-        ])?>">
+        <a class="col-sm-1 text-primary" href="<?= Url::to([
+            "site/index",
+            'tag' => $tag->tag,
+        ]) ?>">
             <?= $tag->tag ?>
         </a>
     <?php endforeach; ?>
