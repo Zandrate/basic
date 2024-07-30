@@ -31,16 +31,21 @@ class SiteController extends Controller
      *
      * @return string
      */
-    public function actionIndex(): string
+    public function actionIndex($tag=null): string
     {
-        $blogs = Blogs::find()->all();
-        return $this->render('index', ['blogs' => $blogs]);
+        $tags = Blogs::find()->select('tag')->all();
+        if ($tag){
+            $blogs = Blogs::find()->where(['tag' => $tag])->all();
+        }else {
+            $blogs = Blogs::find()->all();
+        }
+        return $this->render('index', compact('blogs', 'tags'));
     }
 
 
     public function actionView($id, $about, $title, $text): string
     {
-        return $this->render('view', ['id'=>$id, 'about'=>$about, 'title'=>$title, 'text'=>$text]);
+        return $this->render('view', ['id' => $id, 'about' => $about, 'title' => $title, 'text' => $text]);
     }
 
 
@@ -50,22 +55,45 @@ class SiteController extends Controller
     public function actionCreate()
     {
         $model = new CreateForm();
+        $main_title = 'Создание новой статьи';
 
-
-        if ( $model->load(Yii::$app->request->post()) ){
-            if ( $model->save() ) {
+        if ($model->load(Yii::$app->request->post())) {
+            if ($model->save()) {
                 Yii::$app->session->setFlash('success', 'Статья успешно сохранена');
                 return $this->refresh();
             }
 
         }
-        return $this->render('create', compact('model'));
+        return $this->render('create', compact('model', 'main_title'));
     }
 
 
-    public function actionSave()
+    public function actionEdit(int $id)
     {
+        $model = CreateForm::find()
+            ->andWhere(["id"=>$id])
+            ->one();
 
-        return $this->goHome();
+        $main_title = 'Редактирование статьи';
+
+        if ($model->load(Yii::$app->request->post())) {
+            if ($model->save()) {
+                Yii::$app->session->setFlash('success', 'Статья успешно сохранена');
+                return $this->refresh();
+            }
+
+        }
+        return $this->render('create', compact('model','main_title'));
+    }
+
+
+    public function actionDelete(int $id)
+    {
+        $model = CreateForm::find()
+            ->andWhere(["id" => $id])
+            ->one();
+
+        $model->delete();
+        $this->goHome();
     }
 }
