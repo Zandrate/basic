@@ -13,17 +13,6 @@ $this->title = Yii:: $app->name;
 ?>
 
 <div class="row">
-    <?php foreach ($tags as $tag): ?>
-        <a class="col-sm-1 text-primary" href="<?= Url::to([
-            "site/index",
-            'tag' => $tag->tag,
-        ]) ?>">
-            <?= $tag->tag ?>
-        </a>
-    <?php endforeach; ?>
-</div>
-
-<div class="row">
     <?php foreach ($blogs as $blog): ?>
         <div class="col-lg-4 mb-3">
             <?php $url = Url::to(

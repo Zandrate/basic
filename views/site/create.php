@@ -1,10 +1,10 @@
 <?php
 
-use app\models\CreateForm;
+use app\models\Blogs;
 use yii\bootstrap5\ActiveForm;
 use yii\bootstrap5\Html;
 
-/**@var CreateForm $model * */
+/**@var Blogs $model * */
 /**@var string $main_title * */
 ?>
     <div style="text-align: center;"><h1><?= $main_title ?></h1></div>

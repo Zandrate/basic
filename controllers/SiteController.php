@@ -27,27 +27,24 @@ class SiteController extends Controller
     }
 
 
-    public function actionIndex($tag = null): string
+    public function actionIndex(): string
     {
-        $tags = Blogs::find()->select('tag')->all();
-        if ($tag) {
-            $blogs = Blogs::find()->where(['tag' => $tag])->all();
-        } else {
             $blogs = Blogs::find()->all();
-        }
-        return $this->render('index', compact('blogs', 'tags'));
+
+        return $this->render('index', ['blogs'=>$blogs]);
     }
 
 
     public function actionView($id, $about, $title, $text): string
     {
-        return $this->render(
-            'view',
-                compact( 'id',
-                'about',
-                'title',
-                'text'
-        ));
+        return $this->render('view',
+            [
+                 'id'=>$id,
+                'about'=>$about,
+                'title'=>$title,
+                'text'=>$text
+            ]
+        );
     }
 
 
@@ -66,7 +63,7 @@ class SiteController extends Controller
             }
 
         }
-        return $this->render('create', compact('model', 'main_title'));
+        return $this->render('create', ['model'=>$model, 'main_title'=>$main_title]);
     }
 
 
