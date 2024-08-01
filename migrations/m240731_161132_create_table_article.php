@@ -27,18 +27,4 @@ class m240731_161132_create_table_article extends Migration
     {
         $this->dropTable('article');
     }
-
-
-
-
-    /*
-    // Use up()/down() to run migration code without a transaction.
-
-    public function down()
-    {
-        echo "m240731_161132_article cannot be reverted.\n";
-
-        return false;
-    }
-    */
 }
