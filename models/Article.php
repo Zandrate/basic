@@ -4,11 +4,11 @@ namespace app\models;
 
 use yii\db\ActiveRecord;
 
-class Blogs extends ActiveRecord
+class Article extends ActiveRecord
 {
     public static function tableName(): string
     {
-        return 'blogs';
+        return 'article';
     }
 
     public function attributeLabels()

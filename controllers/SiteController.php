@@ -2,14 +2,27 @@
 
 namespace app\controllers;
 
+use app\search\ArticleSearch;
+use app\services\ArticleService;
 use Yii;
 use yii\db\Exception;
 use yii\db\StaleObjectException;
 use yii\web\Controller;
-use app\models\Blogs;
+use app\models\Article;
 
 class SiteController extends Controller
 {
+    /**
+     * @var ArticleService $service
+     */
+    private $service;
+
+    public function __construct(string $id, $module, ArticleService $service)
+    {
+        parent::__construct($id, $module);
+        $this->service = $service;
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -29,9 +42,9 @@ class SiteController extends Controller
 
     public function actionIndex(): string
     {
-            $blogs = Blogs::find()->all();
+        $searchModel = new ArticleSearch();
 
-        return $this->render('index', ['blogs'=>$blogs]);
+        return $this->render('index', ['dataProvider' => $searchModel->search()]);
     }
 
 
@@ -39,10 +52,10 @@ class SiteController extends Controller
     {
         return $this->render('view',
             [
-                 'id'=>$id,
-                'about'=>$about,
-                'title'=>$title,
-                'text'=>$text
+                'id' => $id,
+                'about' => $about,
+                'title' => $title,
+                'text' => $text
             ]
         );
     }
@@ -53,7 +66,7 @@ class SiteController extends Controller
      */
     public function actionCreate()
     {
-        $model = new Blogs();
+        $model = new Article();
         $main_title = 'Создание новой статьи';
 
         if ($model->load(Yii::$app->request->post())) {
@@ -63,16 +76,13 @@ class SiteController extends Controller
             }
 
         }
-        return $this->render('create', ['model'=>$model, 'main_title'=>$main_title]);
+        return $this->render('create', ['model' => $model, 'main_title' => $main_title]);
     }
 
 
     public function actionEdit(int $id)
     {
-        $model = Blogs::find()
-            ->andWhere(["id" => $id])
-            ->one();
-
+        $model = $this->service->getArticleModels($id);
         $main_title = 'Редактирование статьи';
 
         if ($model->load(Yii::$app->request->post())) {
@@ -92,10 +102,7 @@ class SiteController extends Controller
      */
     public function actionDelete(int $id)
     {
-        $model = Blogs::find()
-            ->andWhere(["id" => $id])
-            ->one();
-
+        $model =  $this->service->getArticleModels($id);
         $model->delete();
         $this->goHome();
     }
