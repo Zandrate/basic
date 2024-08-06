@@ -10,10 +10,7 @@ use yii\widgets\ListView;
 
 $this->title = Yii:: $app->name;
 ?>
-<div class="row">
-<?=ListView::widget([
+<?= ListView::widget([
     'dataProvider' => $dataProvider,
-    'itemView' => '_post',
-]);?>
-</div>
-
+    'itemView' => '_post'
+]); ?>

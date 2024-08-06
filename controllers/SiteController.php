@@ -102,7 +102,7 @@ class SiteController extends Controller
      */
     public function actionDelete(int $id)
     {
-        $model =  $this->service->getArticleModels($id);
+        $model = $this->service->getArticleModels($id);
         $model->delete();
         $this->goHome();
     }
