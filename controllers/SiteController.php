@@ -2,25 +2,32 @@
 
 namespace app\controllers;
 
+use app\filter\CategoryFilter;
 use app\search\ArticleSearch;
 use app\services\ArticleService;
+use app\services\CategoryService;
 use Yii;
 use yii\db\Exception;
 use yii\db\StaleObjectException;
 use yii\web\Controller;
 use app\models\Article;
+use app\models\Category;
+use app\models\Junction;
 
 class SiteController extends Controller
 {
     /**
-     * @var ArticleService $service
+     * @var ArticleService $articleService
+     * @var CategoryService $categoryService
      */
-    private $service;
+    private $articleService;
+    private CategoryService $categoryService;
 
-    public function __construct(string $id, $module, ArticleService $service)
+    public function __construct(string $id, $module, ArticleService $articleService, CategoryService $categoryService)
     {
         parent::__construct($id, $module);
-        $this->service = $service;
+        $this->articleService = $articleService;
+        $this->categoryService = $categoryService;
     }
 
     /**
@@ -43,8 +50,13 @@ class SiteController extends Controller
     public function actionIndex(): string
     {
         $searchModel = new ArticleSearch();
+        $data_category =$this->categoryService->getCategory();;
 
-        return $this->render('index', ['dataProvider' => $searchModel->search()]);
+        return $this->render('index',
+            [
+                'dataProvider' => $searchModel->search(),
+                'data_category' => $data_category,
+            ]);
     }
 
 
@@ -76,13 +88,17 @@ class SiteController extends Controller
             }
 
         }
-        return $this->render('create', ['model' => $model, 'main_title' => $main_title]);
+        return $this->render('create',
+            [
+                'model' => $model,
+                'main_title' => $main_title
+            ]);
     }
 
 
     public function actionEdit(int $id)
     {
-        $model = $this->service->getArticleModels($id);
+        $model = $this->articleService->getArticleModels($id);
         $main_title = 'Редактирование статьи';
 
         if ($model->load(Yii::$app->request->post())) {
@@ -92,7 +108,11 @@ class SiteController extends Controller
             }
 
         }
-        return $this->render('create', compact('model', 'main_title'));
+        return $this->render('create',
+            [
+                'model' => $model,
+                'main_title' => $main_title
+            ]);
     }
 
 
@@ -102,8 +122,24 @@ class SiteController extends Controller
      */
     public function actionDelete(int $id)
     {
-        $model = $this->service->getArticleModels($id);
+        $model = $this->articleService->getArticleModels($id);
         $model->delete();
         $this->goHome();
     }
+
+
+    public function actionFiltering(int $tag_id)
+    {
+        $model = $this->categoryService->getJunction($tag_id);
+        $filter_model = new CategoryFilter();
+        $data_category = $this->categoryService->getCategory();
+        return $this->render('index',
+            [
+                'dataProvider' => $filter_model->filter_article($model),
+                'data_category' => $data_category,
+            ]);
+
+
+    }
+
 }
