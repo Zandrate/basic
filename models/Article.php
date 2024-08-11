@@ -30,9 +30,5 @@ class Article extends ActiveRecord
 
     }
 
-    public function getCategory()
-    {
-        return $this->hasMany(Category::className(), ['id' => 'id_category'])
-            ->viaTable('junction', ['id_article' => 'id']);
-    }
+
 }

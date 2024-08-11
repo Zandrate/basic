@@ -39,7 +39,11 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
     ]);
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav'],
-        'items' => [['label' => 'Create article', 'url' => ['/site/create']]]
+        'items' =>
+            [
+                ['label' => 'Создать статью', 'url' => ['/site/create']],
+                ['label' => 'Создать тег', 'url' => ['/site/teg']],
+            ]
     ]);
     NavBar::end();
     ?>

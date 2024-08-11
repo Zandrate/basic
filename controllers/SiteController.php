@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 use app\filter\CategoryFilter;
+use app\models\Category;
 use app\search\ArticleSearch;
 use app\services\ArticleService;
 use app\services\CategoryService;
@@ -11,8 +12,6 @@ use yii\db\Exception;
 use yii\db\StaleObjectException;
 use yii\web\Controller;
 use app\models\Article;
-use app\models\Category;
-use app\models\Junction;
 
 class SiteController extends Controller
 {
@@ -50,7 +49,7 @@ class SiteController extends Controller
     public function actionIndex(): string
     {
         $searchModel = new ArticleSearch();
-        $data_category =$this->categoryService->getCategory();;
+        $data_category = $this->categoryService->getCategory();
 
         return $this->render('index',
             [
@@ -140,6 +139,24 @@ class SiteController extends Controller
             ]);
 
 
+    }
+    public function actionTeg()
+    {
+        $model = new Category();
+        $main_title = 'Создание тега';
+
+        if ($model->load(Yii::$app->request->post())) {
+            if ($model->save()) {
+                Yii::$app->session->setFlash('success', 'Тег успешно сохранена');
+                return $this->refresh();
+            }
+
+        }
+        return $this->render('teg',
+            [
+                'model' => $model,
+                'main_title'=>$main_title
+            ]);
     }
 
 }

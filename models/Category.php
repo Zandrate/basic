@@ -18,6 +18,7 @@ class Category extends ActiveRecord
     {
         return [
             [['title'], 'string', 'max' => 50],
+            [['title'], 'required', 'message' => 'Поле обязательно для заполнения'],
         ];
     }
 
@@ -27,14 +28,9 @@ class Category extends ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'title' => 'Title',
+            'id' => 'Айди',
+            'title' => 'Имя тега',
         ];
-    }
-    public function getArticles()
-    {
-        return $this->hasMany(Article::className(), ['id' => 'article_id'])
-            ->viaTable('junction', ['category_id' => 'id']);
     }
 
 }
