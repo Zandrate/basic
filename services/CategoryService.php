@@ -20,6 +20,14 @@ class CategoryService
     {
         return Category::find()->all();
 
+    }public function getTitleCategory()
+    {
+        return Category::find()
+            ->select(['title'])
+            ->asArray()
+            ->indexBy('id')
+            ->column();
+
     }
 
 }

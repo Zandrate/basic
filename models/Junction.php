@@ -20,8 +20,8 @@ class Junction extends ActiveRecord
     public function rules()
     {
         return [
-            [['id_article', 'id_tag'], 'integer'],
-            [['id_category'], 'exist', 'skipOnError' => true, 'targetClass' => Category::className(), 'targetAttribute' => ['id_tag' => 'id']],
+            [['id_article', 'id_category'], 'integer'],
+            [['id_category'], 'exist', 'skipOnError' => true, 'targetClass' => Category::className(), 'targetAttribute' => ['id_category' => 'id']],
             [['id_article'], 'exist', 'skipOnError' => true, 'targetClass' => Article::className(), 'targetAttribute' => ['id_article' => 'id']],
         ];
     }
@@ -33,8 +33,8 @@ class Junction extends ActiveRecord
     {
         return [
             'id' => 'ID',
-            'id_article' => 'ID Article',
-            'id_category' => 'ID Tag',
+            'id_article' => 'Статья',
+            'id_category' => 'Тег',
         ];
     }
 
