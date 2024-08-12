@@ -71,12 +71,17 @@ class SiteController extends Controller
 
     public function actionView($id, $about, $title, $text): string
     {
+        $junction = $this->categoryService->getJunctionId($id);
+        $category = $this->categoryService->getArrayCategory($junction);
+
+
         return $this->render('view',
             [
                 'id' => $id,
                 'about' => $about,
                 'title' => $title,
-                'text' => $text
+                'text' => $text,
+                'category' => $this->categoryService->getTitleCategory($category),
             ]
         );
     }

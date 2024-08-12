@@ -4,6 +4,7 @@
 /**@var string $text * */
 
 /**@var string $about * */
+/**@var array $category * */
 
 use yii\bootstrap5\Html;
 use yii\helpers\Url;
@@ -30,6 +31,8 @@ $url_tag = Url::to(
 <!DOCTYPE html>
 <html lang="<?= Yii::$app->language ?>">
 <div style="text-align: center;"><h2><b><?php echo $title ?></b></h2></div>
+Теги статьи: <?= implode(',',$category)?><br>
+<!--Теги: --><?php //foreach ($category as $tag) echo $tag.'  '; ?><!--<br>-->
 <?php echo 'Автор: ' . $about ?>
 <p><?= $text ?></p>
 <div class="btn-group" role="group">

@@ -12,7 +12,7 @@ use yii\helpers\Url;
 
 $this->title = Yii:: $app->name;
 ?>
-Фильтры<br>
+Фильтрация по тегам:<br>
 
 <?php foreach ($data_category as $tag): ?>
 

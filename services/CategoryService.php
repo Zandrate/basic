@@ -15,19 +15,36 @@ class CategoryService
             ->all();
 
     }
+    public function getJunctionId(int $id)
+    {
+        return Junction::find()
+            ->select(['id_category'])
+            ->where(['id_article' => $id])
+            ->asArray()
+            ->all();
+    }
 
     public function getCategory()
     {
         return Category::find()->all();
 
-    }public function getTitleCategory()
+    }public function getTitleCategory(array $id_category = null)
     {
         return Category::find()
             ->select(['title'])
+            ->where(['id' => $id_category])
             ->asArray()
             ->indexBy('id')
             ->column();
 
+    }
+
+    public function getArrayCategory(array $id_category)
+    {
+        $array_id = [];
+        foreach ($id_category as $id) $array_id[]=$id['id_category'];
+
+        return $array_id;
     }
 
 }
