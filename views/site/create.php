@@ -16,7 +16,7 @@ use yii\bootstrap5\Html;
 echo $form->field($model, 'title');
 echo $form->field($model, 'about');
 echo $form->field($model, 'text')->textarea(['row' => 10]);
-if (isset($title_category)){
+if (isset($title_category)) {
     echo $form->field($junction, 'id_category')->dropDownList($title_category);
 }
 echo Html::submitButton('Сохранить статью', ['class' => 'btn btn-primary']);

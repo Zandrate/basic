@@ -22,7 +22,7 @@ class SiteController extends Controller
     /**
      * @var ArticleService $articleService
      */
-    private ArticleService$articleService;
+    private ArticleService $articleService;
 
 
     /**

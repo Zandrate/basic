@@ -34,7 +34,7 @@ class Junction extends ActiveRecord
         return [
             'id' => 'ID',
             'id_article' => 'Статья',
-            'id_category' => 'Тег',
+            'id_category' => 'Тег'
         ];
     }
 

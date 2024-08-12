@@ -23,7 +23,7 @@ $this->title = Yii:: $app->name;
 
         ]
     ) ?>">
-        <?=$tag->title ?>
+        <?= $tag->title ?>
     </a>
 <?php endforeach; ?>
 <p><?= ListView::widget([

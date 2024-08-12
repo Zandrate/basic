@@ -2,6 +2,7 @@
 /**@var int $id * */
 /**@var string $title * */
 /**@var string $text * */
+
 /**@var string $about * */
 
 use yii\bootstrap5\Html;
