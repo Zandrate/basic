@@ -42,7 +42,7 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
         'items' =>
             [
                 ['label' => 'Создать статью', 'url' => ['/site/create']],
-                ['label' => 'Создать тег', 'url' => ['/site/teg']],
+                ['label' => 'Создать тег', 'url' => ['/site/create-category']],
             ]
     ]);
     NavBar::end();

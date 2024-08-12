@@ -28,7 +28,17 @@ class CategoryService
     {
         return Category::find()->all();
 
-    }public function getTitleCategory(array $id_category = null)
+    }
+    public function getTitleCategory()
+    {
+        return Category::find()
+            ->select(['title'])
+            ->asArray()
+            ->indexBy('id')
+            ->column();
+
+    }
+    public function getFiltrTitleCategory(array $id_category = null)
     {
         return Category::find()
             ->select(['title'])

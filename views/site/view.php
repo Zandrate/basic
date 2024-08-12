@@ -23,7 +23,7 @@ $url_delete = Url::to(
     ]);
 $url_tag = Url::to(
     [
-        'site/tag',
+        'site/give-tag',
         'id_article' => $id,
     ]);
 ?>

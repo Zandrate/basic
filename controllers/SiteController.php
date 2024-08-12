@@ -81,7 +81,7 @@ class SiteController extends Controller
                 'about' => $about,
                 'title' => $title,
                 'text' => $text,
-                'category' => $this->categoryService->getTitleCategory($category),
+                'category' => $this->categoryService->getFiltrTitleCategory($category),
             ]
         );
     }
@@ -165,7 +165,7 @@ class SiteController extends Controller
 
     }
 
-    public function actionTeg()
+    public function actionCreateCategory()
     {
         $model = new Category();
         $main_title = 'Создание тега';
@@ -178,14 +178,14 @@ class SiteController extends Controller
             }
 
         }
-        return $this->render('teg',
+        return $this->render('create_category',
             [
                 'model' => $model,
                 'main_title' => $main_title
             ]);
     }
 
-    public function actionTag(int $id_article)
+    public function actionGiveTag(int $id_article)
     {
         $model = new Junction();
         $model_article = $this->articleService->getArticleModels($id_article);
@@ -199,7 +199,7 @@ class SiteController extends Controller
             }
         }
 
-        return $this->render('tag',
+        return $this->render('give_tag',
             [
                 'model' => $model,
                 'title_category' => $this->categoryService->getTitleCategory(),
