@@ -12,11 +12,7 @@ use yii\bootstrap5\Html;
 ?>
     <div style="text-align: center;"><h1><?= $main_title ?></h1></div>
 
-<?php if (Yii::$app->session->hasFlash('success')) {
-    echo Yii::$app->session->getFlash('success');
-}
-
-$form = ActiveForm::begin();
+<?php $form = ActiveForm::begin();
 echo $form->field($model, 'title');
 echo $form->field($model, 'about');
 echo $form->field($model, 'text')->textarea(['row' => 10]);

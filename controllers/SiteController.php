@@ -16,11 +16,18 @@ use app\models\Article;
 
 class SiteController extends Controller
 {
+    private string $text_article;
+    private string $text_category;
+
     /**
      * @var ArticleService $articleService
+     */
+    private ArticleService$articleService;
+
+
+    /**
      * @var CategoryService $categoryService
      */
-    private $articleService;
     private CategoryService $categoryService;
 
     public function __construct(string $id, $module, ArticleService $articleService, CategoryService $categoryService)
@@ -28,6 +35,8 @@ class SiteController extends Controller
         parent::__construct($id, $module);
         $this->articleService = $articleService;
         $this->categoryService = $categoryService;
+        $this->text_article = 'Статья успешно сохранена';
+        $this->text_category = 'Тег успешно сохранен';
     }
 
     /**
@@ -50,9 +59,7 @@ class SiteController extends Controller
     public function actionIndex(): string
     {
         $searchModel = new ArticleSearch();
-        $data_category = $this
-            ->categoryService
-            ->getCategory();
+        $data_category = $this->categoryService->getCategory();
 
         return $this->render('index',
             [
@@ -84,12 +91,12 @@ class SiteController extends Controller
         $junction = new Junction();
         $main_title = 'Создание новой статьи';
 
-        if ($model->load(Yii::$app->request->post()) and $junction->load(Yii::$app->request->post())  ) {
+        if ($model->load(Yii::$app->request->post()) and $junction->load(Yii::$app->request->post())) {
             if ($model->save()) {
                 $junction->id_article = $model->id;
                 if ($junction->save()) {
                     Yii::$app->session
-                        ->setFlash('success', 'Статья успешно сохранена');
+                        ->setFlash('success', $this->text_article);
                     return $this->refresh();
                 }
             }
@@ -114,7 +121,7 @@ class SiteController extends Controller
         if ($model->load(Yii::$app->request->post())) {
             if ($model->save()) {
                 Yii::$app->session
-                    ->setFlash('success', 'Статья успешно сохранена');
+                    ->setFlash('success', $this->text_article);
                 return $this->refresh();
             }
 
@@ -161,7 +168,7 @@ class SiteController extends Controller
         if ($model->load(Yii::$app->request->post())) {
             if ($model->save()) {
                 Yii::$app->session
-                    ->setFlash('success', 'Тег успешно сохранен');
+                    ->setFlash('success', $this->text_category);
                 return $this->refresh();
             }
 
@@ -177,12 +184,12 @@ class SiteController extends Controller
     {
         $model = new Junction();
         $model_article = $this->articleService->getArticleModels($id_article);
-        $model->id_article =$model_article->id;
+        $model->id_article = $model_article->id;
 
         if ($model->load(Yii::$app->request->post())) {
             if ($model->save()) {
                 Yii::$app->session
-                    ->setFlash('success', 'Тег успешно сохранен');
+                    ->setFlash('success', $this->text_category);
                 return $this->refresh();
             }
         }
@@ -191,7 +198,7 @@ class SiteController extends Controller
             [
                 'model' => $model,
                 'title_category' => $this->categoryService->getTitleCategory(),
-                'title'=>$model_article->title
+                'title' => $model_article->title
 
 
             ]);
