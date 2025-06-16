@@ -39,9 +39,6 @@ class SiteController extends Controller
         $this->text_category = 'Тег успешно сохранен';
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function actions()
     {
         return [
@@ -188,7 +185,9 @@ class SiteController extends Controller
     public function actionGiveTag(int $id_article)
     {
         $model = new Junction();
+        
         $model_article = $this->articleService->getArticleModels($id_article);
+        
         $model->id_article = $model_article->id;
 
         if ($model->load(Yii::$app->request->post())) {
@@ -204,8 +203,6 @@ class SiteController extends Controller
                 'model' => $model,
                 'title_category' => $this->categoryService->getTitleCategory(),
                 'title' => $model_article->title
-
-
             ]);
 
 
